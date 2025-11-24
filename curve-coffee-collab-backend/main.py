@@ -68,6 +68,20 @@ def create_pair(member1_id: int, member2_id: int, week: date, db: Session = Depe
 def list_pairs(db: Session = Depends(get_db)):
     return db.query(Pair).all()
 
+@app.get("/pairs-with-names")
+def get_pairs_with_names(db: Session = Depends(get_db)):
+    pairs = db.query(Pair).all()
+    result = []
+    for pair in pairs:
+        member1 = db.query(TeamMember).filter(TeamMember.id == pair.member1_id).first()
+        member2 = db.query(TeamMember).filter(TeamMember.id == pair.member2_id).first()
+        result.append({
+            "week": pair.week,
+            "member1": {"id": member1.id, "name": member1.name},
+            "member2": {"id": member2.id, "name": member2.name}
+        })
+    return result
+
 @app.get("/pairs/{pair_id}")
 def get_pair(pair_id: int, db: Session = Depends(get_db)):
     pair = db.query(Pair).filter(Pair.id == pair_id).first()

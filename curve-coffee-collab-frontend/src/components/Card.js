@@ -1,5 +1,6 @@
 import "../styles/components/Card.scss";
 import coffeeIcon from "../assets/coffee-icon.png";
+import React, { useEffect, useState } from 'react';
 
 function Card({ name1, name2 }) {
   return (

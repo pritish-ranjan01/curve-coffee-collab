@@ -5,15 +5,16 @@ import Card from "./Card";
 function NameSection() {
   const [names, setNames] = useState([]);
 
+
   useEffect(() => {
     fetch("/data.json")
       .then((res) => res.json())
-      .then((data) => setNames(data.names));
+      .then((data) => setNames(data.names || []));
   }, []);
 
   return (
     <div className="name-section">
-      {names.map(
+      {Array.isArray(names) && names.map(
         (item, index) =>
           index % 2 === 0 && (
             <Card
