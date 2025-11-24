@@ -9,11 +9,24 @@ import React, { useEffect, useState } from "react";
 function App() {
   const [pairs, setPairs] = useState([]);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
+
   useEffect(() => {
-    fetch("/pairs-with-names")
-      .then((res) => res.json())
-      .then((data) => setPairs(data));
-  }, []);
+    const url = `${API_BASE_URL}/pairs-with-names`;
+    console.log("Fetching from:", url);
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Pairs data:", data);
+        setPairs(data);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch pairs:", err);
+      });
+  }, [API_BASE_URL]);
 
   return (
     <div className="App">
