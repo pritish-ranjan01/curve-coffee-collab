@@ -4,7 +4,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 250px;
+  margin-bottom: 2rem;
+}
+
+.hero-title {
+  margin-bottom: 0.5rem;
 }
 
 .hero-text {
@@ -12,4 +17,18 @@
   flex-direction: column;
   text-align: center;
   color: white;
+}
+.hero-text p {
+  font-weight: bold;
+}
+
+.hero-search {
+  margin-top: 1rem;
+  padding: 8px 12px;
+  border-radius: 50px;
+  background-color: black;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  outline: none;
 }
