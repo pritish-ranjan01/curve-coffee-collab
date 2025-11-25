@@ -14,6 +14,7 @@ const GoldStar = () => (
 
 
 function Card({ name1, name2, pairId, member1Attended, member2Attended, onAttendanceUpdate }) {
+  const apiBase = process.env.REACT_APP_API_BASE_URL || "";
   // Defensive: default null/undefined attendance to false
   const safeAttended1 = member1Attended === true;
   const safeAttended2 = member2Attended === true;
@@ -29,7 +30,7 @@ function Card({ name1, name2, pairId, member1Attended, member2Attended, onAttend
     if ((member === 1 && attended1) || (member === 2 && attended2)) return;
     const newAttended1 = member === 1 ? true : attended1;
     const newAttended2 = member === 2 ? true : attended2;
-    fetch(`/pairs/${pairId}/attendance`, {
+    fetch(`${apiBase}/pairs/${pairId}/attendance`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
