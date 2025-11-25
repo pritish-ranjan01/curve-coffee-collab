@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Boolean
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -21,3 +21,11 @@ class Pair(Base):
     week = Column(Date, nullable=False)
     member1 = relationship("TeamMember", foreign_keys=[member1_id], back_populates="pairs")
     member2 = relationship("TeamMember", foreign_keys=[member2_id], back_populates="pairs2")
+    member1_attended = Column(Boolean, default=False)
+    member2_attended = Column(Boolean, default=False)
+
+class SoloSipper(Base):
+    __tablename__ = "solo_sipper"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)

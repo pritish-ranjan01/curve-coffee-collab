@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.params import Body
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker, Session
 from datetime import date
@@ -85,9 +86,12 @@ def get_pairs_with_names(db: Session = Depends(get_db)):
         member1 = db.query(TeamMember).filter(TeamMember.id == pair.member1_id).first()
         member2 = db.query(TeamMember).filter(TeamMember.id == pair.member2_id).first()
         result.append({
+            "id": pair.id,
             "week": pair.week,
             "member1": {"id": member1.id, "name": member1.name},
-            "member2": {"id": member2.id, "name": member2.name}
+            "member2": {"id": member2.id, "name": member2.name},
+            "member1_attended": pair.member1_attended,
+            "member2_attended": pair.member2_attended
         })
     return result
 
@@ -106,3 +110,24 @@ def delete_pair(pair_id: int, db: Session = Depends(get_db)):
     db.delete(pair)
     db.commit()
     return {"ok": True}
+
+from pydantic import BaseModel
+
+class AttendanceUpdate(BaseModel):
+    member1_attended: bool
+    member2_attended: bool
+
+@app.put("/pairs/{pair_id}/attendance")
+def update_attendance(
+    pair_id: int,
+    attendance: AttendanceUpdate,
+    db: Session = Depends(get_db)
+):
+    pair = db.query(Pair).filter(Pair.id == pair_id).first()
+    if not pair:
+        raise HTTPException(status_code=404, detail="Pair not found")
+    pair.member1_attended = attendance.member1_attended
+    pair.member2_attended = attendance.member2_attended
+    db.commit()
+    db.refresh(pair)
+    return pair
