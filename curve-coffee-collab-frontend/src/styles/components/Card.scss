@@ -1,5 +1,5 @@
 .card {
-  background-color: #1a1a1a;
+  background-color: #23272f; /* light dark */
   border: 1px solid #333;
   border-radius: 8px;
   display: flex;
@@ -8,10 +8,16 @@
   padding: 20px;
   width: 30%;
   min-width: 250px;
+  color: #fff;
+}
+
+.card.concluded {
+  background-color: #ffe9a7; /* less bright gold */
+  color: #23272f;
 }
 
 .name-left {
-  color: white;
+  color: inherit;
   font-size: 1rem;
   flex: 1;
   text-align: left;
@@ -36,7 +42,7 @@
 }
 
 .name-right {
-  color: white;
+  color: inherit;
   font-size: 1rem;
   flex: 1;
   text-align: right;
