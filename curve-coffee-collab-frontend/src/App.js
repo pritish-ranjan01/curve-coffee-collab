@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 
 function App() {
   const [pairs, setPairs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
 
@@ -28,18 +29,30 @@ function App() {
       });
   }, [API_BASE_URL]);
 
+  const filteredPairs = pairs.filter(
+    (pair) =>
+      pair.member1.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pair.member2.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="App">
       <Header />
-      <Hero />
+      <Hero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className="cards-container">
-        {pairs.map((pair, idx) => (
-          <Card
-            key={idx}
-            name1={pair.member1.name}
-            name2={pair.member2.name}
-          />
-        ))}
+        {filteredPairs.length > 0 ? (
+          filteredPairs.map((pair, idx) => (
+            <Card
+              key={idx}
+              name1={pair.member1.name}
+              name2={pair.member2.name}
+            />
+          ))
+        ) : (
+          <div style={{ textAlign: "center", width: "100%", margin: "2rem 0" }}>
+            No coffee collabs for you!
+          </div>
+        )}
       </div>
       <NameSection />
       <Footer />
