@@ -1,9 +1,17 @@
 import "../styles/components/Card.scss";
 import coffeeIcon from "../assets/coffee-icon.png";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 function Card({ name1, name2 }) {
   const dialog = useRef(null);
+  const [selectedTopics, setSelectedTopics] = useState([]);
+
+  const topics = ["Project Update", "Knowledge Share", "Networking"];
+  const toggleTopic = (topic) => {
+    setSelectedTopics((prev) =>
+      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
+    );
+  };
 
   const openDialog = () => {
     dialog.current.showModal();
@@ -29,15 +37,19 @@ function Card({ name1, name2 }) {
 
         <div className="dialog-options">
           <h4 className="dialog-label">Select Topic:</h4>
-          <label>
-            <input type="checkbox" /> Project Update
-          </label>
-          <label>
-            <input type="checkbox" /> Knowledge Share
-          </label>
-          <label>
-            <input type="checkbox" /> Networking
-          </label>
+          <div className="dialog-pills">
+            {topics.map((topic) => (
+              <button
+                key={topic}
+                className={`pill ${
+                  selectedTopics.includes(topic) ? "pill-active" : ""
+                }`}
+                onClick={() => toggleTopic(topic)}
+              >
+                {topic}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="dialog-section">
