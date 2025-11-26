@@ -6,15 +6,28 @@ import Hero from "./components/Hero";
 import Card from "./components/Card";
 import SoloSipper from "./components/SoloSipper";
 import Leaderboard from "./components/Leaderboard";
+
 import React, { useEffect, useState } from "react";
 
+function getApiBaseUrl() {
+  // Use env variable if set, otherwise choose based on environment
+  if (process.env.REACT_APP_API_BASE_URL) {
+    return process.env.REACT_APP_API_BASE_URL;
+  }
+  // If running on localhost, use local backend
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    return "http://127.0.0.1:8000";
+  }
+  // Otherwise, use the public backend (replace with your deployed backend URL)
+  return "https://curve-coffee-collab-backend-893898539752.us-central1.run.app";
+}
 
 function App() {
   const [pairs, setPairs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [closeAllCardsFlag, setCloseAllCardsFlag] = useState(false);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
+  const API_BASE_URL = getApiBaseUrl();
 
   useEffect(() => {
     const url = `${API_BASE_URL}/pairs-with-names`;
