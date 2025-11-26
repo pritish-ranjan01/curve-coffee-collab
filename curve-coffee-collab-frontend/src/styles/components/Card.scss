@@ -55,6 +55,9 @@ dialog {
   right: 0;
   bottom: 0;
   margin: auto;
+  width: 90%;
+  max-width: 800px;
+  height: fit-content;
 }
 
 .dialog-title {
@@ -75,6 +78,7 @@ dialog {
 .dialog-btns button {
   padding: 8px 12px;
   border-radius: 8px;
+  min-width: 40%;
   border: 1px solid #c97a3a;
   background-color: #222;
   color: white;
@@ -88,6 +92,28 @@ dialog {
   margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
+}
+
+.dialog-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid #c97a3a;
+  background-color: transparent;
+  color: #c97a3a;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.pill-active {
+  background-color: #c97a3a;
+  color: #1a1a1a;
 }
 
 .dialog-btn-primary {

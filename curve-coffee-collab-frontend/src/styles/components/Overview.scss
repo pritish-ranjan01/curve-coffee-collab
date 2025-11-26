@@ -1,9 +1,40 @@
 .overview {
-  background-color: #c97a3a;
+  background-color: #1a1a1a;
+  border: 2px solid #c97a3a;
   padding: 40px 20px;
-  min-width: 60%;
-  border-radius: 16px;
+  min-width: 70%;
+  border-radius: 12px;
   margin: 2rem auto;
   text-align: center;
   color: white;
+}
+
+.overview-week {
+  color: #c97a3a;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.overview-title {
+  margin: 10px 0;
+  font-size: 1.8rem;
+}
+
+.overview-dates {
+  color: #aaa;
+  margin: 10px 0 20px 0;
+}
+
+.overview-btn {
+  background-color: #c97a3a;
+  color: #1a1a1a;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.overview-btn:hover {
+  background-color: #d97d42;
 }
