@@ -2,6 +2,7 @@ import "../styles/components/Hero.scss";
 
 
 
+
 function Hero({ searchTerm, setSearchTerm }) {
   return (
     <div className="hero">

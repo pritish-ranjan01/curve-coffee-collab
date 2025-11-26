@@ -22,8 +22,10 @@ function getApiBaseUrl() {
   return "https://curve-coffee-collab-backend-893898539752.us-central1.run.app";
 }
 
+
 function App() {
   const [pairs, setPairs] = useState([]);
+  const [week, setWeek] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [closeAllCardsFlag, setCloseAllCardsFlag] = useState(false);
 
@@ -36,7 +38,14 @@ function App() {
         if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
       })
-      .then((data) => setPairs(data))
+      .then((data) => {
+        setPairs(data.pairs || data);
+        if (Array.isArray(data) && data.length > 0 && data[0].week) {
+          setWeek(data[0].week);
+        } else if (data.week) {
+          setWeek(data.week);
+        }
+      })
       .catch((err) => {
         console.error("Failed to fetch pairs:", err);
       });
@@ -71,10 +80,32 @@ function App() {
       <Header />
       <Hero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       {searchTerm.length <= 2 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem', alignItems: 'center', width: '100%' }}>
-          <Leaderboard />
-          <SoloSipper />
-        </div>
+        <>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0, alignItems: 'center', width: '100%' }}>
+            <Leaderboard />
+            <SoloSipper />
+          </div>
+          {week && (
+            <div
+              style={{
+                fontWeight: 600,
+                fontSize: 20,
+                margin: '2.5rem auto 2.5rem auto',
+                color: '#FFD700',
+                textAlign: 'center',
+                width: '100%',
+                maxWidth: 600,
+                background: '#23272f',
+                borderRadius: 16,
+                padding: '1.2rem 1.5rem',
+                boxShadow: '0 2px 16px rgba(0,0,0,0.18)',
+                display: 'block',
+              }}
+            >
+              Random CoffeeCollab pairs for the week {week}
+            </div>
+          )}
+        </>
       )}
       <div className="cards-container">
         {filteredPairs.length > 0 ? (
@@ -99,6 +130,45 @@ function App() {
       </div>
       <NameSection />
       <Footer />
+      {/* Shuffle Pairs Button */}
+      <button
+        onClick={async () => {
+          try {
+            await fetch(`${API_BASE_URL}/shuffle-pairs`, { method: 'POST' });
+            // Re-fetch pairs after shuffling
+            const url = `${API_BASE_URL}/pairs-with-names`;
+            const res = await fetch(url);
+            const data = await res.json();
+            setPairs(data.pairs || data);
+            if (Array.isArray(data) && data.length > 0 && data[0].week) {
+              setWeek(data[0].week);
+            } else if (data.week) {
+              setWeek(data.week);
+            }
+          } catch (err) {
+            alert('Failed to shuffle pairs.');
+          }
+        }}
+        style={{
+          position: 'fixed',
+          left: 12,
+          bottom: 12,
+          zIndex: 2000,
+          background: '#2196f3',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 8,
+          padding: '0.4rem 1.1rem',
+          fontSize: 13,
+          fontWeight: 600,
+          boxShadow: '0 2px 8px rgba(33,150,243,0.18)',
+          cursor: 'pointer',
+          opacity: 0.92,
+        }}
+        title="Shuffle pairs and solo sipper"
+      >
+        Shuffle Pairs
+      </button>
     </div>
   );
 }

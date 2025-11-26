@@ -7,13 +7,24 @@ const GoldStar = () => (
   </svg>
 );
 
+function getApiBaseUrl() {
+  if (process.env.REACT_APP_API_BASE_URL) {
+    return process.env.REACT_APP_API_BASE_URL;
+  }
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    return "http://127.0.0.1:8000";
+  }
+  return "https://curve-coffee-collab-backend-893898539752.us-central1.run.app";
+}
+
 export default function Leaderboard() {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const API_BASE_URL = getApiBaseUrl();
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_API_BASE_URL + "/leaderboard/")
+    fetch(API_BASE_URL + "/leaderboard/")
       .then((res) => {
         if (!res.ok) throw new Error("No leaderboard data");
         return res.json();
@@ -26,7 +37,7 @@ export default function Leaderboard() {
         setError("No leaderboard data");
         setLoading(false);
       });
-  }, []);
+  }, [API_BASE_URL]);
 
   return (
     <div className="leaderboard-banner">

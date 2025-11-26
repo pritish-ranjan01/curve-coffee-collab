@@ -37,7 +37,7 @@ function Card({ name1, name2, pairId, member1Attended, member2Attended, onAttend
   const [dialogTriggeredByCoffee, setDialogTriggeredByCoffee] = useState(false);
   const [attended1, setAttended1] = useState(member1Attended);
   const [attended2, setAttended2] = useState(member2Attended);
-  const apiBase = process.env.REACT_APP_API_BASE || "";
+  const apiBase = process.env.REACT_APP_API_BASE_URL || "";
   // Concluded if both attended
   const concluded = attended1 && attended2;
   const [sessionBooked, setSessionBooked] = useState(false);
@@ -490,6 +490,22 @@ function Card({ name1, name2, pairId, member1Attended, member2Attended, onAttend
                 setSessionBooked(true);
                 setExpanded(false);
                 if (onCloseAllCards) onCloseAllCards();
+
+                // Copy template to clipboard
+                const topicsText = selectedTopics.length > 0 ? selectedTopics.join(", ") : "";
+                const template = `Hi,\n\nWe were matched by the Curve CoffeeCollab app to have a coffee chat. Does the following time work for you?\n${meetingDate ? meetingDate : '<replace with date and time>'}\n\nI'd love to discuss the following topic${selectedTopics.length > 1 ? 's' : ''}: ${topicsText ? topicsText : '<replace with the topic selected>'}.\n\nThanks!`;
+                if (navigator.clipboard) {
+                  navigator.clipboard.writeText(template);
+                } else {
+                  // fallback for older browsers
+                  const textarea = document.createElement('textarea');
+                  textarea.value = template;
+                  document.body.appendChild(textarea);
+                  textarea.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(textarea);
+                }
+
                 setTimeout(() => setSessionBooked(false), 2000);
               }}
             >

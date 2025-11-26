@@ -1,16 +1,28 @@
+
 import React, { useEffect, useState } from "react";
 import "../styles/components/SoloSipper.scss";
 
 const coffeeEmoji = "\u2615\uFE0F"; // ☕️
 const confetti = "\uD83C\uDF89"; // 🎉
 
+function getApiBaseUrl() {
+  if (process.env.REACT_APP_API_BASE_URL) {
+    return process.env.REACT_APP_API_BASE_URL;
+  }
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    return "http://127.0.0.1:8000";
+  }
+  return "https://curve-coffee-collab-backend-893898539752.us-central1.run.app";
+}
+
 export default function SoloSipper() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const API_BASE_URL = getApiBaseUrl();
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_API_BASE_URL + "/solo-sipper-of-the-week")
+    fetch(API_BASE_URL + "/solo-sipper-of-the-week")
       .then((res) => {
         if (!res.ok) throw new Error("No solo sipper found");
         return res.json();
@@ -23,7 +35,7 @@ export default function SoloSipper() {
         setError("No solo sipper this week!");
         setLoading(false);
       });
-  }, []);
+  }, [API_BASE_URL]);
 
   return (
     <div className="solo-sipper-banner">

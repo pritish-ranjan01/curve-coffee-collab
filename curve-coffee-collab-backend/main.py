@@ -4,6 +4,8 @@ from fastapi.params import Body
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker, Session
 from datetime import date
+from random import shuffle
+
 from models import Base, TeamMember, Pair, Topic, SoloSipper
 
 DATABASE_URL = "sqlite:///./curve_coffee_collab.db"
@@ -161,3 +163,38 @@ def get_leaderboard(db: Session = Depends(get_db)):
         else:
             break
     return result
+
+@app.post("/shuffle-pairs")
+def shuffle_pairs(db: Session = Depends(get_db)):
+    # Clear existing pairs and solo sipper
+    db.query(Pair).delete()
+    db.query(SoloSipper).delete()
+    db.commit()
+
+    # Get all team members
+    members = db.query(TeamMember).all()
+    member_ids = [m.id for m in members]
+    shuffle(member_ids)
+
+    today = date.today()
+    pairs = []
+    solo = None
+    # Pair up members
+    for i in range(0, len(member_ids) - 1, 2):
+        pair = Pair(
+            member1_id=member_ids[i],
+            member2_id=member_ids[i+1],
+            week=today,
+            member1_attended=False,
+            member2_attended=False
+        )
+        db.add(pair)
+        pairs.append(pair)
+    # If odd member, add to solo sipper
+    if len(member_ids) % 2 == 1:
+        solo_member = db.query(TeamMember).filter(TeamMember.id == member_ids[-1]).first()
+        if solo_member:
+            solo = SoloSipper(name=solo_member.name, email=solo_member.email)
+            db.add(solo)
+    db.commit()
+    return {"ok": True, "pairs_created": len(pairs), "solo_sipper": solo.name if solo else None}
