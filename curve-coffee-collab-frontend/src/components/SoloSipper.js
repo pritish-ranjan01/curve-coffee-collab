@@ -15,28 +15,8 @@ function getApiBaseUrl() {
   return "https://curve-coffee-collab-backend-893898539752.us-central1.run.app";
 }
 
-export default function SoloSipper() {
-  const [name, setName] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const API_BASE_URL = getApiBaseUrl();
-
-  useEffect(() => {
-    fetch(API_BASE_URL + "/solo-sipper-of-the-week")
-      .then((res) => {
-        if (!res.ok) throw new Error("No solo sipper found");
-        return res.json();
-      })
-      .then((data) => {
-        setName(data.name);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("No solo sipper this week!");
-        setLoading(false);
-      });
-  }, [API_BASE_URL]);
-
+export default function SoloSipper({ name, loading, error }) {
+  // coffeeEmoji and confetti defined above
   return (
     <div className="solo-sipper-banner">
       <div className="solo-sipper-title celebrating">

@@ -23,32 +23,51 @@ function getApiBaseUrl() {
 }
 
 
+
 function App() {
   const [pairs, setPairs] = useState([]);
   const [week, setWeek] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [closeAllCardsFlag, setCloseAllCardsFlag] = useState(false);
+  const [soloSipper, setSoloSipper] = useState({ name: "", loading: true, error: "" });
 
   const API_BASE_URL = getApiBaseUrl();
 
+  // Fetch pairs and week
+  const fetchPairs = async () => {
+    try {
+      const url = `${API_BASE_URL}/pairs-with-names`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Network response was not ok");
+      const data = await res.json();
+      setPairs(data.pairs || data);
+      if (Array.isArray(data) && data.length > 0 && data[0].week) {
+        setWeek(data[0].week);
+      } else if (data.week) {
+        setWeek(data.week);
+      }
+    } catch (err) {
+      console.error("Failed to fetch pairs:", err);
+    }
+  };
+
+  // Fetch solo sipper
+  const fetchSoloSipper = async () => {
+    setSoloSipper({ name: "", loading: true, error: "" });
+    try {
+      const res = await fetch(`${API_BASE_URL}/solo-sipper-of-the-week`);
+      if (!res.ok) throw new Error("No solo sipper found");
+      const data = await res.json();
+      setSoloSipper({ name: data.name, loading: false, error: "" });
+    } catch (err) {
+      setSoloSipper({ name: "", loading: false, error: "No solo sipper this week!" });
+    }
+  };
+
   useEffect(() => {
-    const url = `${API_BASE_URL}/pairs-with-names`;
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then((data) => {
-        setPairs(data.pairs || data);
-        if (Array.isArray(data) && data.length > 0 && data[0].week) {
-          setWeek(data[0].week);
-        } else if (data.week) {
-          setWeek(data.week);
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to fetch pairs:", err);
-      });
+    fetchPairs();
+    fetchSoloSipper();
+    // eslint-disable-next-line
   }, [API_BASE_URL]);
 
   // Handler to update attendance in state after backend update
@@ -83,7 +102,7 @@ function App() {
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0, alignItems: 'center', width: '100%' }}>
             <Leaderboard />
-            <SoloSipper />
+            <SoloSipper name={soloSipper.name} loading={soloSipper.loading} error={soloSipper.error} />
           </div>
           {week && (
             <div
@@ -111,7 +130,9 @@ function App() {
         {filteredPairs.length > 0 ? (
           filteredPairs.filter(pair => pair.id !== undefined && pair.id !== null).map((pair, idx) => (
             <Card
-              key={pair.id || idx}
+              key={
+                `${pair.id || idx}-${pair.member1.name}-${pair.member2.name}-${pair.member1_attended}-${pair.member2_attended}`
+              }
               pairId={pair.id}
               name1={pair.member1.name}
               name2={pair.member2.name}
@@ -135,16 +156,8 @@ function App() {
         onClick={async () => {
           try {
             await fetch(`${API_BASE_URL}/shuffle-pairs`, { method: 'POST' });
-            // Re-fetch pairs after shuffling
-            const url = `${API_BASE_URL}/pairs-with-names`;
-            const res = await fetch(url);
-            const data = await res.json();
-            setPairs(data.pairs || data);
-            if (Array.isArray(data) && data.length > 0 && data[0].week) {
-              setWeek(data[0].week);
-            } else if (data.week) {
-              setWeek(data.week);
-            }
+            await fetchPairs();
+            await fetchSoloSipper();
           } catch (err) {
             alert('Failed to shuffle pairs.');
           }

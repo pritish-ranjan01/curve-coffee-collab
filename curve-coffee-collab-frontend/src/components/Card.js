@@ -37,6 +37,12 @@ function Card({ name1, name2, pairId, member1Attended, member2Attended, onAttend
   const [dialogTriggeredByCoffee, setDialogTriggeredByCoffee] = useState(false);
   const [attended1, setAttended1] = useState(member1Attended);
   const [attended2, setAttended2] = useState(member2Attended);
+
+  // Reset attendance state when pairId or attendance props change
+  useEffect(() => {
+    setAttended1(member1Attended);
+    setAttended2(member2Attended);
+  }, [pairId, member1Attended, member2Attended]);
   const apiBase = process.env.REACT_APP_API_BASE_URL || "";
   // Concluded if both attended
   const concluded = attended1 && attended2;
