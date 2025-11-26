@@ -17,7 +17,7 @@ function Hero({ searchTerm, setSearchTerm }) {
         <p>Connect. Collaborate. Caffeinate.</p>
         <input
           type="text"
-          placeholder="Search for a name..."
+          placeholder="Search your coffee pair..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           style={{ marginTop: "1rem", padding: "0.5rem", fontSize: "1rem", borderRadius: "4px", border: "1px solid #ccc" }}
