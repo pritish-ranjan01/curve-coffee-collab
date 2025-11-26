@@ -8,9 +8,11 @@ import SoloSipper from "./components/SoloSipper";
 import Leaderboard from "./components/Leaderboard";
 import React, { useEffect, useState } from "react";
 
+
 function App() {
   const [pairs, setPairs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [closeAllCardsFlag, setCloseAllCardsFlag] = useState(false);
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
 
@@ -36,6 +38,12 @@ function App() {
           : pair
       )
     );
+  };
+
+  // Handler to close all cards (triggered by session booking)
+  const handleCloseAllCards = () => {
+    setCloseAllCardsFlag(true);
+    setTimeout(() => setCloseAllCardsFlag(false), 200); // allow cards to react
   };
 
   // Filter pairs based on search term (case-insensitive)
@@ -66,6 +74,8 @@ function App() {
               member1Attended={pair.member1_attended}
               member2Attended={pair.member2_attended}
               onAttendanceUpdate={handleAttendanceUpdate}
+              onCloseAllCards={handleCloseAllCards}
+              closeAllCardsFlag={closeAllCardsFlag}
             />
           ))
         ) : (

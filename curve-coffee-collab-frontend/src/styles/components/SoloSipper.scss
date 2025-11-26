@@ -1,23 +1,25 @@
-
 .solo-sipper-banner {
-  background: linear-gradient(90deg, #ffe9a7 0%, #fffbe6 100%);
+  background: linear-gradient(120deg, #381e10 0%, #000 80%, #381e10 100%);
   border-radius: 32px;
-  margin: 0 auto 3.5rem auto;
+  margin: 0 auto 1.0rem auto;
   padding: 1.2rem 2.2rem 1.5rem 2.2rem;
-  box-shadow: 0 4px 24px 0 rgba(255, 215, 64, 0.18), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+  border: 2px solid #ffe06688;
+  box-shadow: 0 0 4px 1px #ffe06633, 0 0 8px 0 #fffbe611, 0 1.5px 8px 0 rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 88%;
   max-width: 1200px;
+  position: relative;
+  overflow: hidden;
 
   .solo-sipper-title {
     font-size: 2.1rem;
     font-weight: 900;
-    color: #c97a3a;
+    color: #FFD700;
     margin-bottom: 1.1rem;
     letter-spacing: 0.03em;
-    text-shadow: 0 2px 12px #fffbe6, 0 0 24px #FFD70099;
+    text-shadow: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,13 +42,9 @@
     100% {
       transform: scale(1) rotate(0deg);
       opacity: 1;
-      text-shadow: 0 2px 12px #fffbe6, 0 0 24px #FFD70099;
+      text-shadow: none;
     }
   }
-  border: 4px solid #FFD700;
-  box-shadow: 0 0 16px 4px #ffe06699, 0 4px 24px 0 rgba(255, 215, 64, 0.18), 0 1.5px 8px 0 rgba(0,0,0,0.08);
-  position: relative;
-  overflow: hidden;
 }
 
 @keyframes shine-move {

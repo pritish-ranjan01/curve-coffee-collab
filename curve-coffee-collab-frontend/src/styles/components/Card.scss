@@ -14,6 +14,7 @@
 .card.concluded {
   background-color: #ffe9a7; /* less bright gold */
   color: #23272f;
+  box-shadow: 0 0 0 2px #ffe06655, 0 2px 8px #c97a3a55;
 }
 
 .name-left {
@@ -22,6 +23,7 @@
   flex: 1;
   text-align: left;
 }
+
 
 .coffee-icon {
   background-color: #c97a3a;
@@ -33,6 +35,18 @@
   justify-content: center;
   font-size: 1.5rem;
   margin: 0 20px;
+  transition: box-shadow 0.2s, transform 0.18s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.clickable-coffee {
+  cursor: pointer;
+}
+
+.clickable-coffee:hover,
+.clickable-coffee:focus {
+  box-shadow: 0 0 0 4px #ffe06699, 0 2px 16px #c97a3a99;
+  transform: scale(1.18) rotate(-6deg);
+  outline: none;
 }
 
 .coffee-icon img {
