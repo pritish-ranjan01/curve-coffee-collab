@@ -1,10 +1,25 @@
+ .hero-logo {
+  width: 120px;
+  height: auto;
+  filter: drop-shadow(0 2px 12px #c97a3a) drop-shadow(0 0 18px #fffbe6) drop-shadow(0 0 8px #FFD70099);
+  border-radius: 18px;
+  margin-bottom: 1.5rem;
+}
+
 .hero {
   background: linear-gradient(135deg, #2b1504 0%, #6f3a19 50%, #c97a3a 100%);
   padding: 60px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 450px;
+  border-radius: 32px;
+  box-shadow: 0 8px 32px 0 rgba(201, 122, 58, 0.18), 0 2px 8px 0 rgba(0,0,0,0.08);
+  margin: 0 auto 3.5rem auto;
+  max-width: 100vw;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero-text {
@@ -12,4 +27,16 @@
   flex-direction: column;
   text-align: center;
   color: white;
+  font-size: 1.18rem;
+}
+
+.hero-text h1 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 0.7rem;
+}
+
+.hero-text p {
+  font-size: 1.18rem;
+  margin-bottom: 1.2rem;
 }

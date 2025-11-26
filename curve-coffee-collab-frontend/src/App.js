@@ -4,6 +4,8 @@ import NameSection from "./components/NameSection";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Card from "./components/Card";
+import SoloSipper from "./components/SoloSipper";
+import Leaderboard from "./components/Leaderboard";
 import React, { useEffect, useState } from "react";
 
 function App() {
@@ -47,6 +49,12 @@ function App() {
     <div className="App">
       <Header />
       <Hero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      {searchTerm.length <= 2 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem', alignItems: 'center', width: '100%' }}>
+          <Leaderboard />
+          <SoloSipper />
+        </div>
+      )}
       <div className="cards-container">
         {filteredPairs.length > 0 ? (
           filteredPairs.filter(pair => pair.id !== undefined && pair.id !== null).map((pair, idx) => (

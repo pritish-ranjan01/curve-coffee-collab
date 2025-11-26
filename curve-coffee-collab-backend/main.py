@@ -4,7 +4,7 @@ from fastapi.params import Body
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker, Session
 from datetime import date
-from models import Base, TeamMember, Pair
+from models import Base, TeamMember, Pair, Topic, SoloSipper
 
 DATABASE_URL = "sqlite:///./curve_coffee_collab.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
@@ -131,3 +131,33 @@ def update_attendance(
     db.commit()
     db.refresh(pair)
     return pair
+
+@app.get("/topics/")
+def list_topics(db: Session = Depends(get_db)):
+    return db.query(Topic).all()
+
+@app.get("/solo-sipper-of-the-week")
+def get_solo_sipper_of_the_week(db: Session = Depends(get_db)):
+    solo = db.query(SoloSipper).order_by(SoloSipper.id.desc()).first()
+    if not solo:
+        raise HTTPException(status_code=404, detail="No solo sipper found")
+    return {"name": solo.name}
+
+@app.get("/leaderboard/")
+def get_leaderboard(db: Session = Depends(get_db)):
+    # Get all members ordered by stars_earned desc, then name
+    members = db.query(TeamMember).order_by(TeamMember.stars_earned.desc(), TeamMember.name).all()
+    if not members:
+        return []
+    # Find the cutoff for top 3 (including ties)
+    result = []
+    cutoff = 0
+    for idx, member in enumerate(members):
+        if idx < 3:
+            result.append({"name": member.name, "stars_earned": member.stars_earned})
+            cutoff = member.stars_earned
+        elif member.stars_earned == cutoff:
+            result.append({"name": member.name, "stars_earned": member.stars_earned})
+        else:
+            break
+    return result

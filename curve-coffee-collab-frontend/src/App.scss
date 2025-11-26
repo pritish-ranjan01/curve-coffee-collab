@@ -15,6 +15,11 @@
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;  
+  gap: 16px;
   justify-content: center;
+  background: #181c20;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  margin-top: -32px;
+  padding-top: 32px;
 }
