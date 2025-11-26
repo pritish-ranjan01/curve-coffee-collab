@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/curve-coffee-collab/static/css/main.70ee6c83.css",
-    "main.js": "/curve-coffee-collab/static/js/main.ba30230d.js",
+    "main.js": "/curve-coffee-collab/static/js/main.ac4e4de3.js",
     "static/js/453.39b2e8a7.chunk.js": "/curve-coffee-collab/static/js/453.39b2e8a7.chunk.js",
     "static/media/logo_coffee_collab.png": "/curve-coffee-collab/static/media/logo_coffee_collab.1da130a4d933cffa25f4.png",
     "static/media/logo.png": "/curve-coffee-collab/static/media/logo.a6944cb09afaeec8c198.png",
     "static/media/coffee-icon.png": "/curve-coffee-collab/static/media/coffee-icon.d46dc6cfc8b9be66f12f.png",
     "index.html": "/curve-coffee-collab/index.html",
     "main.70ee6c83.css.map": "/curve-coffee-collab/static/css/main.70ee6c83.css.map",
-    "main.ba30230d.js.map": "/curve-coffee-collab/static/js/main.ba30230d.js.map",
+    "main.ac4e4de3.js.map": "/curve-coffee-collab/static/js/main.ac4e4de3.js.map",
     "453.39b2e8a7.chunk.js.map": "/curve-coffee-collab/static/js/453.39b2e8a7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.70ee6c83.css",
-    "static/js/main.ba30230d.js"
+    "static/js/main.ac4e4de3.js"
   ]
 }
