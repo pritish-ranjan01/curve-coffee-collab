@@ -3,9 +3,14 @@ import Header from "./components/Header";
 import NameSection from "./components/NameSection";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
+import Overview from "./components/Overview";
 import Card from "./components/Card";
+<<<<<<< HEAD
 import SoloSipper from "./components/SoloSipper";
 import Leaderboard from "./components/Leaderboard";
+=======
+import { shufflePairs } from "./utils/shuffleUtils";
+>>>>>>> 7233a3f4dcdac75076390e99d81133679fb19ba4
 import React, { useEffect, useState } from "react";
 
 
@@ -14,7 +19,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [closeAllCardsFlag, setCloseAllCardsFlag] = useState(false);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
 
   useEffect(() => {
     const url = `${API_BASE_URL}/pairs-with-names`;
@@ -52,6 +57,10 @@ function App() {
       pair.member1.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pair.member2.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleShuffle = () => {
+    setPairs(shufflePairs(pairs));
+  };
 
   return (
     <div className="App">
