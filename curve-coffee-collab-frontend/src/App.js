@@ -5,12 +5,7 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Overview from "./components/Overview";
 import Card from "./components/Card";
-<<<<<<< HEAD
-import SoloSipper from "./components/SoloSipper";
-import Leaderboard from "./components/Leaderboard";
-=======
 import { shufflePairs } from "./utils/shuffleUtils";
->>>>>>> 7233a3f4dcdac75076390e99d81133679fb19ba4
 import React, { useEffect, useState } from "react";
 
 
